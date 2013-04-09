@@ -11,8 +11,8 @@ from time import sleep
 credFile = os.path.expanduser('~/.rackspace_cloud_credentials')
 cs = None
 clb = None
-serverBaseName = 'cloud_jason_Web'
-lbBaseName = 'cloud_jason_lb'
+serverBaseName = 'chal7-node'
+lbBaseName = 'chal7-lb'
 imageId = 'c195ef3b-9195-4474-b6f7-16e5bd86acd0' # CentOS 6.3
 flavorId = 2  # 512MB Standard Instance
 
@@ -76,7 +76,7 @@ def main():
         if (('private' in server1Status.addresses) and ('private' in server2Status.addresses)):
             serversReady = True
 
-    sys.stdout.write(" done\nCreating load balander and adding nodes "
+    sys.stdout.write(" done\nCreating load balander and adding nodes ")
     sys.stdout.flush()
 
     node1 = clb.Node(address=str(server1Status.addresses['private'][0]['addr']), port=80, condition="ENABLED")
@@ -90,8 +90,8 @@ def main():
     lb = clb.create(lbName, port=80, protocol="HTTP", nodes=[node1,node2],virtual_ips=[vip])
     lbStatus = clb.get(lb.id)
     while lbStatus.status == "BUILD":
-        sys.out.write('.')
-        sys.out.flush()
+        sys.stdout.write('.')
+        sys.stdout.flush()
         sleep(5)
 
     print "#########################################"
