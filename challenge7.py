@@ -76,7 +76,7 @@ def main():
         if (('private' in server1Status.addresses) and ('private' in server2Status.addresses)):
             serversReady = True
 
-    sys.stdout.write(" done\nCreating load balander and adding nodes ")
+    sys.stdout.write(" done\nCreating load balancer and adding nodes ")
     sys.stdout.flush()
 
     node1 = clb.Node(address=str(server1Status.addresses['private'][0]['addr']), port=80, condition="ENABLED")
@@ -93,17 +93,22 @@ def main():
         sys.stdout.write('.')
         sys.stdout.flush()
         sleep(5)
+        lbStatus = clb.get(lb.id)
+    sys.stdout.write(" done.\n")
+    sys.stdout.flush()
+    server1Status = cs.servers.get(server1.id)
+    server2Status = cs.servers.get(server2.id)
 
     print "#########################################"
     print "# Server1 Name: ", server1.name
     print "# Server1 ID: ", server1.id
-    print "# Server1 IP: ", server1Status.accessIPv4
+    print "# Server1 IP: ", server1Status.addresses['public'][1]['addr']
     print "# Server1 Admin Password: ", server1.adminPass
     print "# Server1 Status:", server1Status.status
     print "#"
     print "# Server2 Name: ", server2.name
     print "# Server2 ID: ", server2.id
-    print "# Server2 IP: ", server2Status.accessIPv4
+    print "# Server2 IP: ", server2Status.addresses['public'][1]['addr']
     print "# Server2 Admin Password: ", server2.adminPass
     print "# Server2 Status:", server2Status.status
     print "#"
@@ -112,7 +117,7 @@ def main():
     print "# Load Balancer VIP: ", lb.virtual_ips[0].address
     print "# Load Balancer Algorithm: ", lb.algorithm
     print "# Load Balancer Protocol: ", lb.protocol
-    print "# Load Balancer Status: ", lb.status
+    print "# Load Balancer Status: ", lbStatus.status
     print "#########################################"
 
 if __name__ == "__main__":
