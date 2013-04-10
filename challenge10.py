@@ -179,6 +179,8 @@ def main():
             "data": lb.virtual_ips[0].address,
             "ttl": 300}
     record = domain.add_records([a_rec])
+    server1Status = cs.servers.get(server1.id)
+    server2Status = cs.servers.get(server2.id)
 
     print "#########################################"
     print "#"
@@ -188,13 +190,13 @@ def main():
     print "#"
     print "# Server1 Name: ", server1.name
     print "# Server1 ID: ", server1.id
-    print "# Server1 IP: ", server1Status.accessIPv4
+    print "# Server1 IP: ", server1Status.addresses['public'][1]['addr']
     print "# Server1 Admin Password: ", server1.adminPass
     print "# Server1 Status:", server1Status.status
     print "#"
     print "# Server2 Name: ", server2.name
     print "# Server2 ID: ", server2.id
-    print "# Server2 IP: ", server2Status.accessIPv4
+    print "# Server2 IP: ", server2Status.addresses['public'][1]['addr']
     print "# Server2 Admin Password: ", server2.adminPass
     print "# Server2 Status:", server2Status.status
     print "#"
